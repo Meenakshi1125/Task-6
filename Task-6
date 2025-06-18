@@ -1,0 +1,39 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import folium
+
+# Step 1: Create a sample traffic accident dataset
+data = {
+    'accident_id': range(1, 11),
+    'time': ['08:00', '18:45', '22:15', '14:00', '09:30', '17:10', '23:45', '06:00', '15:30', '20:20'],
+    'weather': ['Clear', 'Rainy', 'Foggy', 'Clear', 'Rainy', 'Snowy', 'Foggy', 'Clear', 'Rainy', 'Clear'],
+    'road_condition': ['Dry', 'Wet', 'Wet', 'Dry', 'Wet', 'Snowy', 'Wet', 'Dry', 'Wet', 'Dry'],
+    'severity': ['High', 'Medium', 'High', 'Low', 'Medium', 'High', 'Medium', 'Low', 'High', 'Medium'],
+    'latitude': [28.61, 28.62, 28.63, 28.64, 28.61, 28.60, 28.58, 28.65, 28.66, 28.67],
+    'longitude': [77.23, 77.24, 77.22, 77.25, 77.23, 77.26, 77.20, 77.27, 77.28, 77.22]
+}
+
+df = pd.DataFrame(data)
+
+# Convert time to datetime format
+df['hour'] = pd.to_datetime(df['time'], format='%H:%M').dt.hour
+
+# Step 2: Heatmap of accident frequency by hour and weather
+plt.figure(figsize=(8, 5))
+sns.countplot(data=df, x='hour', hue='weather', palette='Set2')
+plt.title('Accident Frequency by Hour and Weather')
+plt.xlabel('Hour of Day')
+plt.ylabel('Number of Accidents')
+plt.legend(title='Weather')
+plt.tight_layout()
+plt.show()
+
+# Step 3: Severity by Road Condition
+plt.figure(figsize=(7, 4))
+sns.countplot(data=df, x='road_condition', hue='severity', palette='coolwarm')
+plt.title('Severity of Accidents by Road Condition')
+plt.xlabel('Road Condition')
+plt.ylabel('Number of Accidents')
+plt.tight_layout()
+plt.show()
